@@ -163,6 +163,7 @@ int http_request(char* host, int port, char* path, PHTTP_DATA data) {
 
 success:
   free(buffer);
+  close(sock);
 
   return GS_OK;
 
@@ -311,6 +312,7 @@ int https_request(char* host, int port, char* path, PHTTP_DATA data) {
 success:
   SSL_shutdown(ssl);
   free(buffer);
+  close(sock);
   return GS_OK;
 
 failure:

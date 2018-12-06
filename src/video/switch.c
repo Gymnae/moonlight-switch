@@ -1,3 +1,4 @@
+#include "sps.h"
 #include "video.h"
 
 #include <stdio.h>
@@ -18,6 +19,8 @@ static void switch_video_cleanup(void) {
 }
 
 static int switch_video_setup(int videoFormat, int width, int height, int redrawRate, void* context, int drFlags) {
+  gs_sps_init(width, height);
+
   fprintf(stderr, "[VIDEO] Setup renderer: videoFormat=%d width=%d height=%d redrawRate=%d\n",
           videoFormat,
           width,
@@ -81,6 +84,8 @@ static void switch_video_stop(void) {
 
 static int switch_video_submit_decode_unit(PDECODE_UNIT decodeUnit) {
   int ret;
+
+  gs_sps_fix(decodeUnit, 0);
 
   // Collect the data from this decode unit
   PLENTRY bufferEntry = decodeUnit->bufferList;
